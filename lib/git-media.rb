@@ -34,20 +34,20 @@ module GitMedia
       path = `git config git-media.scppath`.chomp
       port = `git config git-media.scpport`.chomp
       if user === ""
-	raise "git-media.scpuser not set for scp transport"
+        raise "git-media.scpuser not set for scp transport"
       end
       if host === ""
-	raise "git-media.scphost not set for scp transport"
+        raise "git-media.scphost not set for scp transport"
       end
       if path === ""
-	raise "git-media.scppath not set for scp transport"
+        raise "git-media.scppath not set for scp transport"
       end
       GitMedia::Transport::Scp.new(user, host, path, port)
 
     when "local"
       path = `git config git-media.localpath`.chomp
       if path === ""
-	raise "git-media.localpath not set for local transport"
+        raise "git-media.localpath not set for local transport"
       end
       GitMedia::Transport::Local.new(path)
     when "s3"
@@ -55,13 +55,13 @@ module GitMedia
       key = `git config git-media.s3key`.chomp
       secret = `git config git-media.s3secret`.chomp
       if bucket === ""
-	raise "git-media.s3bucket not set for s3 transport"
+        raise "git-media.s3bucket not set for s3 transport"
       end
       if key === ""
-	raise "git-media.s3key not set for s3 transport"
+        raise "git-media.s3key not set for s3 transport"
       end
       if secret === ""
-	raise "git-media.s3secret not set for s3 transport"
+        raise "git-media.s3secret not set for s3 transport"
       end
       GitMedia::Transport::S3.new(bucket, key, secret)
     when "atmos"
@@ -97,7 +97,7 @@ module GitMedia
       if collection == ""
         raise "git-media.collection not set for drive transport"
       end
-      GitMedia::Transport::GoogleDrive.new(email, asp, collection)
+      GitMedia::Transport::Drive.new(email, asp, collection)
     else
       raise "Invalid transport #{transport}"
     end

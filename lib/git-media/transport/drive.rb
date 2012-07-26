@@ -8,7 +8,7 @@ require 'google_drive'
 
 module GitMedia
   module Transport
-    class GoogleDrive < Base
+    class Drive < Base
 
       def initialize(email, asp, collection)
         @drive = GoogleDrive.login(email, asp)
