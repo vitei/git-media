@@ -47,6 +47,8 @@ Gem::Specification.new do |s|
   s.add_dependency 's3'
   s.add_dependency 'ruby-atmos-pure'
   s.add_dependency 'right_aws'
+  s.add_development_dependency 'jeweler'
+  s.add_development_dependency 'rspec'
 
   if s.respond_to? :specification_version then
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
