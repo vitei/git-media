@@ -28,33 +28,37 @@ There are four options:
 2. Storing locally in a filesystem path
 3. Storing remotely via SCP (should work with any SSH server)
 4. Storing remotely in atmos
+5. Storing remotely in Google Drive
 
 Here are the relevant sections that should go either in `~/.gitconfig` (for global settings)
 or in `clone/.git/config` (for per-repo settings).
 
-```gitconfig
-[git-media]
-	transport = <scp|local|s3|atmos>
+	[git-media]
+		transport = <scp|local|s3|atmos|drive>
 
-	# settings for scp transport
-	scpuser=<user>
-	scphost=<host>
-	scppath=<path_on_remote_server>
+		# settings for scp transport
+		scpuser=<user>
+		scphost=<host>
+		scppath=<path_on_remote_server>
 
-	# settings for local transport
-	localpath=<local_filesystem_path>
+		# settings for local transport
+		path=<local_filesystem_path>
 
-	# settings for s3 transport
-	s3bucket=<name_of_bucket>
-	s3key=<s3 access key>
-	s3secret=<s3 secret key>
+		# settings for s3 transport
+		s3bucket=<name_of_bucket>
+		s3key=<s3 access key>
+		s3secret=<s3 secret key>
 
-	# settings for atmos transport
-	endpoint=<atmos server>
-	uid=<atmos_uid>
-	secret=<atmos secret key>
-	tag=<atmos object tag>
-```
+		# settings for atmos transport
+		endpoint=<atmos server>
+		uid=<atmos_uid>
+		secret=<atmos secret key>
+		tag=<atmos object tag>
+
+		# settings for drive transport
+		email=<google email>
+		asp=<application specific password>
+		collection=<folder name>
 
 
 ## Usage
@@ -65,22 +69,23 @@ or in `clone/.git/config` (for per-repo settings).
 
 You can also check the status of your media files via
 
-	$ git media status
+  $ git media status
 
 Which will show you files that are waiting to be uploaded and how much data
 that is. If you want to upload & delete the local cache of media files, run:
 
-	$ git media clear
+  $ git media clear
 
 ## Config Settings
 
-	$ git config --global media.auto-download false
+  $ git config --global media.auto-download false
 
 
 ## Installing
 
   $ sudo gem install trollop
   $ sudo gem install s3
+  $ sudo gem install google_drive
   $ sudo gem install ruby-atmos-pure
   $ sudo gem install right_aws
   $ gem build git-media.gemspec
