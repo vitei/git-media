@@ -33,32 +33,34 @@ There are four options:
 Here are the relevant sections that should go either in `~/.gitconfig` (for global settings)
 or in `clone/.git/config` (for per-repo settings).
 
+```ini
 	[git-media]
 		transport = <scp|local|s3|atmos|drive>
 
-		# settings for scp transport
-		scpuser=<user>
-		scphost=<host>
-		scppath=<path_on_remote_server>
+	# settings for scp transport
+	scpuser = <user>
+	scphost = <host>
+	scppath = <path_on_remote_server>
 
-		# settings for local transport
-		path=<local_filesystem_path>
+	# settings for local transport
+	path = <local_filesystem_path>
 
-		# settings for s3 transport
-		s3bucket=<name_of_bucket>
-		s3key=<s3 access key>
-		s3secret=<s3 secret key>
+	# settings for s3 transport
+	s3bucket = <name_of_bucket>
+	s3key    = <s3 access key>
+	s3secret = <s3 secret key>
 
-		# settings for atmos transport
-		endpoint=<atmos server>
-		uid=<atmos_uid>
-		secret=<atmos secret key>
-		tag=<atmos object tag>
+	# settings for atmos transport
+	endpoint = <atmos server>
+	uid      = <atmos_uid>
+	secret   = <atmos secret key>
+	tag      = <atmos object tag>
 
-		# settings for drive transport
-		email=<google email>
-		asp=<application specific password>
-		collection=<folder name>
+	# settings for drive transport
+	email=<google email>
+	asp=<application specific password>
+	collection=<folder name>
+```
 
 
 ## Usage
@@ -83,13 +85,13 @@ that is. If you want to upload & delete the local cache of media files, run:
 
 ## Installing
 
-  $ sudo gem install trollop
-  $ sudo gem install s3
-  $ sudo gem install google_drive
-  $ sudo gem install ruby-atmos-pure
-  $ sudo gem install right_aws
-  $ gem build git-media.gemspec
-  $ sudo gem install git-media-0.1.1.gem
+    $ sudo gem install trollop
+    $ sudo gem install s3
+    $ sudo gem install google_drive
+    $ sudo gem install ruby-atmos-pure
+    $ sudo gem install right_aws
+    $ gem build git-media.gemspec
+    $ sudo gem install git-media-0.1.1.gem
 
 ## Notes for Windows
 
