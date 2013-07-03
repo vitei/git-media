@@ -34,8 +34,8 @@ Here are the relevant sections that should go either in `~/.gitconfig` (for glob
 or in `clone/.git/config` (for per-repo settings).
 
 ```ini
-	[git-media]
-		transport = <scp|local|s3|atmos|drive>
+[git-media]
+	transport = <scp|local|s3|atmos|drive>
 
 	# settings for scp transport
 	scpuser = <user>
@@ -91,7 +91,7 @@ that is. If you want to upload & delete the local cache of media files, run:
     $ sudo gem install ruby-atmos-pure
     $ sudo gem install right_aws
     $ gem build git-media.gemspec
-    $ sudo gem install git-media-0.1.1.gem
+    $ sudo gem install git-media-0.1.5.gem
 
 ## Notes for Windows
 
