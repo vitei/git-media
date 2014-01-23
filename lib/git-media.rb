@@ -136,7 +136,7 @@ module GitMedia
         else
 	  print <<EOF
 usage: git media sync|download|status|clear
-
+  
   sync     Sync files with remote server
   download Download files that are missing; don't upload any files
   status   Show files that are waiting to be uploaded and file size

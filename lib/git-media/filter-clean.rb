@@ -10,13 +10,12 @@ module GitMedia
       media_buffer = GitMedia.get_media_buffer
 
       hashfunc = Digest::SHA1.new
-      start = Time.now
 
-      # TODO: read first 41 bytes and see if this is a stub
-      
+
+      tempfile = Tempfile.new('media')
+	  
       # read in buffered chunks of the data
       #  calculating the SHA and copying to a tempfile
-      tempfile = Tempfile.new('media')
       while data = STDIN.read(4096)
         hashfunc.update(data)
         tempfile.write(data)
@@ -30,11 +29,32 @@ module GitMedia
 
       # move the tempfile to our media buffer area
       media_file = File.join(media_buffer, hx)
-      FileUtils.mv(tempfile.path, media_file)
-      File.chmod(0640, media_file)
+      
+      if !File.exists?(media_file)
 
-      elapsed = Time.now - start
-      STDERR.puts('Saving media : ' + hx + ' : ' + elapsed.to_s)
+		FileUtils.mv(tempfile.path, media_file)
+		File.chmod(0640, media_file)
+
+		STDERR.puts('Saved media: ' + hx )
+	 end
+	  
+	  @push = GitMedia.get_push_transport
+
+	  if @push.needs_push(hx)
+	  	  #STDERR.puts('Skipping media upload: '+hx)
+	  else
+		if @push.push(hx)
+			STDERR.puts('Uploaded media: '+hx)
+		else
+			STDERR.puts('Failed to upload media: '+hx)
+			exit(1)
+		end
+	  end
+
+
+
+
+    
     end
 
   end

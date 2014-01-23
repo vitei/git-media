@@ -1,9 +1,10 @@
+
 module GitMedia
   module FilterSmudge
 
     def self.run!
       media_buffer = GitMedia.get_media_buffer
-      can_download = false # TODO: read this from config and implement
+      #can_download = false # TODO: read this from config and implement
       
       # read checksum size
       sha = STDIN.readpartial(64).lines.first.chomp # read no more than 64 bytes
@@ -11,18 +12,26 @@ module GitMedia
         # this is a media file
         media_file = File.join(media_buffer, sha.chomp)
         if File.exists?(media_file)
-          STDERR.puts('recovering media : ' + sha)
+          STDERR.puts('recovering media: ' + sha)
           File.open(media_file, 'r') do |f|
             while data = f.read(4096) do
               print data
             end
           end
         else
-          # TODO: download file if not in the media buffer area
-          if !can_download
-            STDERR.puts('media missing, saving placeholder : ' + sha)
-            puts sha
-          end
+			STDERR.puts('downloading media: ' + sha)
+			@pull = GitMedia.get_pull_transport
+
+			if @pull.pull(media_file, sha)
+				File.open(media_file, 'r') do |f|
+					while data = f.read(4096) do
+						print data
+					end
+				end
+			else
+				STDERR.puts('Unable to fetch missing media: ' + sha)
+				exit 1
+			end
         end
       else
         # if it is not a 40 character long hash, just output

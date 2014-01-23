@@ -25,10 +25,10 @@ module GitMedia
 
       def exist?(file)
 	if `ssh #{@user}@#{@host} #{@sshport} [ -f "#{file}" ] && echo 1 || echo 0`.chomp == "1"
-	  puts file + " exists"
+	  #puts file + " exists"
 	  return true
 	else
-	  puts file + " doesn't exists"
+	  #puts file + " doesn't exists"
 	  return false
 	end
       end
@@ -37,14 +37,16 @@ module GitMedia
 	return true
       end
 
+
+
       def get_file(sha, to_file)
         from_file = @user+"@"+@host+":"+File.join(@path, sha)
 	`scp #{@scpport} "#{from_file}" "#{to_file}"`
         if $? == 0
-	  puts sha+" downloaded"
+	  #puts sha+" downloaded"
           return true
         end
-	puts sha+" download fail"
+	  #puts sha+" download fail"
         return false
       end
 
@@ -56,10 +58,10 @@ module GitMedia
         to_file = @user+"@"+@host+":"+File.join(@path, sha)
 	`scp #{@scpport} "#{from_file}" "#{to_file}"`
         if $? == 0
-	  puts sha+" uploaded"
+	  #puts sha+" uploaded"
           return true
         end
-	puts sha+" upload fail"
+	  #puts sha+" upload fail"
         return false
       end
       
@@ -69,6 +71,11 @@ module GitMedia
         end
       end
       
+      def needs_push(sha)
+        return exist?(File.join(@path, sha))
+      end
+
+
     end
   end
 end

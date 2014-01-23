@@ -4,13 +4,14 @@ module GitMedia
 
       def pull(final_file, sha)
         to_file = GitMedia.media_path(sha)
-        get_file(sha, to_file)
+        return get_file(sha, to_file)
       end
 
       def push(sha)
         from_file = GitMedia.media_path(sha)
-        put_file(sha, from_file)
+        return put_file(sha, from_file)
       end
+
 
       ## OVERWRITE ##
       
