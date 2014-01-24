@@ -2,7 +2,7 @@
 module GitMedia
   module FilterSmudge
 
-    def self.run!
+    def self.run! (filename)
       media_buffer = GitMedia.get_media_buffer
       #can_download = false # TODO: read this from config and implement
       
@@ -13,14 +13,14 @@ module GitMedia
         # this is a media file
         media_file = File.join(media_buffer, sha.chomp)
         if File.exists?(media_file)
-          STDERR.puts('recovering media: ' + sha)
+          STDERR.puts('Recovering media: ' + filename+' (' + sha[0,8] + ')')
           File.open(media_file, 'r') do |f|
             while data = f.read(4096) do
               print data
             end
           end
         else
-			STDERR.puts('downloading media: ' + sha)
+			STDERR.puts('Downloading media: ' + filename + ' (' + sha[0,8] + ')')
 			@pull = GitMedia.get_pull_transport
 
 			if @pull.pull(media_file, sha)
@@ -30,7 +30,7 @@ module GitMedia
 					end
 				end
 			else
-				STDERR.puts('Unable to fetch missing media: ' + sha)
+				STDERR.puts('Unable to fetch missing media: ' + filename+' (' + sha[0,8] + ')')
 				exit 1
 			end
         end

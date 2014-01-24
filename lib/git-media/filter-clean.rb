@@ -5,7 +5,7 @@ require 'tempfile'
 module GitMedia
   module FilterClean
 
-    def self.run!
+    def self.run!(filename)
       # determine and initialize our media buffer directory
       media_buffer = GitMedia.get_media_buffer
 
@@ -29,13 +29,13 @@ module GitMedia
 
       # move the tempfile to our media buffer area
       media_file = File.join(media_buffer, hx)
-      
+
       if !File.exists?(media_file)
 
 		FileUtils.mv(tempfile.path, media_file)
 		File.chmod(0640, media_file)
 
-		STDERR.puts('Saved media: ' + hx )
+		STDERR.puts('Saved media: ' + filename + ' (' + hx[0,8] + ')' )
 	 end
 	  
 	  @push = GitMedia.get_push_transport
@@ -44,9 +44,9 @@ module GitMedia
 	  	  #STDERR.puts('Skipping media upload: '+hx)
 	  else
 		if @push.push(hx)
-			STDERR.puts('Uploaded media: '+hx)
+			STDERR.puts('Uploaded media: '+filename+' (' + hx[0,8] + ')')
 		else
-			STDERR.puts('Failed to upload media: '+hx)
+			STDERR.puts('Failed to upload media: '+filename+' (' + hx[0,8] + ')')
 			exit(1)
 		end
 	  end

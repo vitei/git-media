@@ -18,7 +18,6 @@ module GitMedia
     File.join(buf, sha)
   end
 
-  # TODO: select the proper transports based on settings
   def self.get_push_transport
     self.get_transport
   end
@@ -111,13 +110,14 @@ module GitMedia
     def self.run!
 
       cmd = ARGV.shift # get the subcommand
+
       cmd_opts = case cmd
         when "filter-clean" # parse delete options
           require 'git-media/filter-clean'
-          GitMedia::FilterClean.run!
+          GitMedia::FilterClean.run! ARGV.shift
         when "filter-smudge"
           require 'git-media/filter-smudge'
-          GitMedia::FilterSmudge.run!
+          GitMedia::FilterSmudge.run! ARGV.shift
         when "clear" # parse delete options
           require 'git-media/clear'
           GitMedia::Clear.run!
