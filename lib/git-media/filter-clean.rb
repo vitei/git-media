@@ -30,6 +30,8 @@ module GitMedia
       # move the tempfile to our media buffer area
       media_file = File.join(media_buffer, hx)
 
+	  # STDERR.puts ('clean: ' + filename + ' ('+hx[0,8]+')')
+
       if !File.exists?(media_file)
 
 		FileUtils.mv(tempfile.path, media_file)

@@ -35,6 +35,7 @@ module GitMedia
 			end
         end
       else
+      	STDERR.puts('Media pass thru: ' + filename)
         # if it is not a 40 character long hash, just output
         #STDERR.puts('Unknown git-media file format')
         print sha
