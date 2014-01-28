@@ -6,12 +6,15 @@ module GitMedia
       media_buffer = GitMedia.get_media_buffer
       #can_download = false # TODO: read this from config and implement
 
-	  #STDERR.puts "smudge"
+	  if filename == nil
+		filename = "(unknown)"
+	  end
 
       # read checksum size
       sha = STDIN.readpartial(40)
  
 	  STDOUT.binmode
+	  #STDERR.puts "smudge : "+filename
 
       if sha.length == 40 && sha.match(/^[0-9a-fA-F]+$/) != nil
         # this is a media file

@@ -15,6 +15,10 @@ module GitMedia
 
       tempfile = Tempfile.new('media')
 	  
+	  if filename == nil
+		filename = "(unknown)"
+	  end
+
       # read in buffered chunks of the data
       #  calculating the SHA and copying to a tempfile
       while data = STDIN.read(4096)
