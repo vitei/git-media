@@ -28,7 +28,7 @@ module GitMedia
       STDOUT.binmode
       STDOUT.write("\n")
 
-	  STDERR.puts "clean : "+filename+" : "+hx[0,8]
+	  #STDERR.puts "clean : "+filename+" : "+hx[0,8]
       
       
       # move the tempfile to our media buffer area

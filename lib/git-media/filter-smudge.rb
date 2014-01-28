@@ -6,7 +6,7 @@ module GitMedia
       media_buffer = GitMedia.get_media_buffer
       #can_download = false # TODO: read this from config and implement
 
-	  STDERR.puts "smudge"
+	  #STDERR.puts "smudge"
 
       # read checksum size
       sha = STDIN.readpartial(40)
