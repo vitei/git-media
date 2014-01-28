@@ -10,7 +10,9 @@ module GitMedia
 
       # read checksum size
       sha = STDIN.readpartial(40)
-  
+ 
+	  STDOUT.binmode
+
       if sha.length == 40 && sha.match(/^[0-9a-fA-F]+$/) != nil
         # this is a media file
         media_file = File.join(media_buffer, sha.chomp)

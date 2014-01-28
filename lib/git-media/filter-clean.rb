@@ -11,7 +11,7 @@ module GitMedia
 
       hashfunc = Digest::SHA1.new
 
-
+	  STDOUT.binmode
 
       tempfile = Tempfile.new('media')
 	  

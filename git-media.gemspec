@@ -48,6 +48,8 @@ Gem::Specification.new do |s|
   s.add_dependency 's3'
   s.add_dependency 'ruby-atmos-pure'
   s.add_dependency 'right_aws'
+  s.add_dependency 'net-ssh'
+  s.add_dependency 'net-scp'
   s.add_development_dependency 'jeweler'
   s.add_development_dependency 'rspec'
 
