@@ -43,7 +43,11 @@ module GitMedia
 
       def get_file(sha, to_file)
         from_file = File.join(@path, sha)
-		return Net::SCP.download!(@host,@user, from_file,to_file,{:port => @scpport})
+		begin
+			return Net::SCP.download!(@host,@user, from_file,to_file,{:port => @scpport})
+		rescue
+			return false
+		end
       end
 
       def write?
@@ -52,8 +56,12 @@ module GitMedia
 
       def put_file(sha, from_file)
         to_file = File.join(@path, sha)
-		Net::SCP.upload!(@host,@user, from_file,to_file,{:port => @scpport})
-		return true
+		begin
+			Net::SCP.upload!(@host,@user, from_file,to_file,{:port => @scpport})
+			return true
+		rescue
+			return false
+		end
       end
       
       def get_unpushed(files)
