@@ -1,5 +1,10 @@
 require 'git-media/transport'
 
+require 'net/scp'
+
+
+
+
 # move large media to remote server via SCP
 
 # git-media.transport scp
@@ -24,13 +29,10 @@ module GitMedia
       end
 
       def exist?(file)
-	if `ssh #{@user}@#{@host} #{@sshport} [ -f "#{file}" ] && echo 1 || echo 0`.chomp == "1"
-	  #puts file + " exists"
-	  return true
-	else
-	  #puts file + " doesn't exists"
-	  return false
-	end
+		Net::SSH.start(@host, @user) do |ssh|
+			return ssh.exec!('[ -f '+file+' ] && echo 1 || echo 0').chomp == "1"
+		end
+	   	return false
       end
 
       def read?
@@ -40,29 +42,18 @@ module GitMedia
 
 
       def get_file(sha, to_file)
-        from_file = @user+"@"+@host+":"+File.join(@path, sha)
-	`scp #{@scpport} "#{from_file}" "#{to_file}"`
-        if $? == 0
-	  #puts sha+" downloaded"
-          return true
-        end
-	  #puts sha+" download fail"
-        return false
+        from_file = File.join(@path, sha)
+		return Net::SCP.download!(@host,@user,from_file,to_file)
       end
 
       def write?
-	return true
+		return true
       end
 
       def put_file(sha, from_file)
-        to_file = @user+"@"+@host+":"+File.join(@path, sha)
-	`scp #{@scpport} "#{from_file}" "#{to_file}"`
-        if $? == 0
-	  #puts sha+" uploaded"
-          return true
-        end
-	  #puts sha+" upload fail"
-        return false
+        to_file = File.join(@path, sha)
+		Net::SCP.upload!(@host,@user,from_file,to_file)
+		return true
       end
       
       def get_unpushed(files)

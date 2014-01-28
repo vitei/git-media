@@ -12,6 +12,7 @@ module GitMedia
       hashfunc = Digest::SHA1.new
 
 
+
       tempfile = Tempfile.new('media')
 	  
       # read in buffered chunks of the data
@@ -27,6 +28,9 @@ module GitMedia
       STDOUT.binmode
       STDOUT.write("\n")
 
+	  STDERR.puts "clean : "+filename+" : "+hx[0,8]
+      
+      
       # move the tempfile to our media buffer area
       media_file = File.join(media_buffer, hx)
 
