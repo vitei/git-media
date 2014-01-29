@@ -133,13 +133,17 @@ module GitMedia
             opt :force, "Force status"
           end
           GitMedia::Status.run!
+		when 'list'
+		  require 'git-media/list'
+		  GitMedia::List.run!
         else
 	  print <<EOF
-usage: git media sync|download|status|clear
+usage: git media sync|download|status|list|clear
   
   sync     Sync files with remote server
   download Download files that are missing; don't upload any files
   status   Show files that are waiting to be uploaded and file size
+  list     List local cache and corresponding media file
   clear    Upload and delete the local cache of media files
 EOF
         end
