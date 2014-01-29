@@ -5,10 +5,9 @@ Gem::Specification.new do |s|
   s.version = "0.1.6"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = ["Scott Chacon"]
-  s.date = %q{2009-06-10}
+  s.authors = ["Scott Chacon, Giles Goddard"]
+  s.date = %q{2014-01-29}
   s.default_executable = %q{git-media}
-  s.email = %q{schacon@gmail.com}
   s.executables = ["git-media"]
   s.extra_rdoc_files = [
     "LICENSE",
@@ -38,7 +37,7 @@ Gem::Specification.new do |s|
      "lib/git-media.rb"
   ]
   s.has_rdoc = true
-  s.homepage = %q{http://github.com/schacon/git-media}
+  s.homepage = %q{https://github.com/vitei/git-media/tree/bugfixes}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.1}
