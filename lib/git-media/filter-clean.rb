@@ -14,7 +14,8 @@ module GitMedia
 	  STDOUT.binmode
 
       tempfile = Tempfile.new('media')
-	  
+	  tempfile.binmode
+
 	  if filename == nil
 		filename = "(unknown)"
 	  end
