@@ -21,16 +21,16 @@ module GitMedia
       status[:to_expand].each do |file, sha|
         cache_file = GitMedia.media_path(sha)
         if !File.exist?(cache_file)
-          puts "Downloading " + sha[0,8] + " : " + file
+          puts "Downloading media " + sha[0,8] + ".. " + file
           @pull.pull(file, sha) 
         end
 
-        puts "Expanding  " + sha[0,8] + " : " + file
+        # puts "Expanding  " + sha[0,8] + " : " + file
         
         if File.exist?(cache_file)
           FileUtils.cp(cache_file, file)
         else
-          puts 'could not get media'
+          puts 'Could not get media ' + sha[0,8] + '.. ' + file
         end
       end
     end
@@ -40,7 +40,7 @@ module GitMedia
       all_cache = Dir.chdir(GitMedia.get_media_buffer) { Dir.glob('*') }
       unpushed_files = @push.get_unpushed(all_cache)
       unpushed_files.each do |sha|
-        puts 'Uploading ' + sha[0, 8]
+        puts 'Uploading media ' + sha[0, 8]
         @push.push(sha)
       end
       # TODO: if --clean, remove them

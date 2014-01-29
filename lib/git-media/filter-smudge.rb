@@ -20,14 +20,14 @@ module GitMedia
         # this is a media file
         media_file = File.join(media_buffer, sha.chomp)
         if File.exists?(media_file)
-          STDERR.puts('Recovering media: ' + filename+' (' + sha[0,8] + ')')
+          STDERR.puts('Recovering media ' + sha[0,8] + '.. ' + filename)
           File.open(media_file, 'r') do |f|
             while data = f.read(4096) do
               print data
             end
           end
         else
-			STDERR.puts('Downloading media: ' + filename + ' (' + sha[0,8] + ')')
+			STDERR.puts('Downloading media ' + sha[0,8] + '.. ' + filename)
 			@pull = GitMedia.get_pull_transport
 
 			if @pull.pull(media_file, sha)
@@ -37,7 +37,7 @@ module GitMedia
 					end
 				end
 			else
-				STDERR.puts('Unable to fetch missing media: ' + filename+' (' + sha[0,8] + ')')
+				STDERR.puts('Unable to fetch media ' + sha[0,8] + '.. ' + filename)
 				exit 1
 			end
         end
