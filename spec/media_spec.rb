@@ -7,7 +7,7 @@ require 'spec_helper'
 describe "Media" do
     
   it "should clean and smudge and save data in buffer area" do
-    in_temp_git_w_media do
+    in_temp_git_repository_with_media_filters do |tmp_path|
       git('add .')
       git("commit -m 'testing'")
       
@@ -38,4 +38,18 @@ describe "Media" do
   
   it "should sync with a local transport"
   
+  it "should add/remove the filters to the config file" do
+    
+    in_temp_git_repository do |tmp_path|
+      `git media install`
+      get_git_config("filter.media.clean").should include("git-media filter-clean")
+      get_git_config("filter.media.smudge").should include("git-media filter-smudge")
+
+      `git media uninstall`
+      get_git_config("filter.media.clean").should_not include("git-media filter-clean")
+      get_git_config("filter.media.smudge").should_not include("git-media filter-smudge")
+
+    end
+  end
+
 end
