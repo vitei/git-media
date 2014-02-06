@@ -129,22 +129,32 @@ module GitMedia
           GitMedia::Sync.run! :download_only => true
         when 'status'
           require 'git-media/status'
+          require 'git-media/config'
           Trollop::options do
             opt :force, "Force status"
           end
           GitMedia::Status.run!
-		when 'list'
-		  require 'git-media/list'
-		  GitMedia::List.run!
+          GitMedia::Config.run!(:status)
+		    when 'list'
+		      require 'git-media/list'
+		      GitMedia::List.run!
+        when 'install'
+          require 'git-media/config'
+          GitMedia::Config.run!(:install)
+        when 'uninstall'
+          require 'git-media/config'
+          GitMedia::Config.run!(:uninstall)
         else
-	  print <<EOF
+	       print <<EOF
 usage: git media sync|download|status|list|clear
   
-  sync     Sync files with remote server
-  download Download files that are missing; don't upload any files
-  status   Show files that are waiting to be uploaded and file size
-  list     List local cache and corresponding media file
-  clear    Upload and delete the local cache of media files
+  sync      Sync files with remote server
+  download  Download files that are missing; don't upload any files
+  status    Show files that are waiting to be uploaded and file size
+  list      List local cache and corresponding media file
+  clear     Upload and delete the local cache of media files
+  install   Set up the attributes filter settings in git config  
+  uninstall Removes the attributes filter settings in git config  
 EOF
         end
 

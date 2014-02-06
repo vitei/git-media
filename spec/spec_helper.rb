@@ -5,31 +5,34 @@ require 'pp'
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 require 'git-media'
+require 'git-media/helpers/git_ops'
 
 RSpec.configure do |config|
 end
 
-def in_temp_git
+include GitMedia::Helpers::GitOps
+
+def in_temp_git_repository
   tf = Tempfile.new('gitdir')
   temppath = tf.path
   tf.unlink
   FileUtils.mkdir(temppath)
-  Dir.chdir(temppath) do
+  Dir.chdir(temppath) do 
     `git init`
-    yield
+    yield temppath
   end
 end
 
-def in_temp_git_w_media
+def in_temp_git_repository_with_media_filters
   bin = File.join(File.dirname(__FILE__), '..', 'bin', 'git-media')  
-  in_temp_git do
+  in_temp_git_repository do |tmp_path|
     append_file('testing1.x22', '1234567')
     append_file('testing2.x22', '123456789')
     append_file('normal.txt', 'hello world')
     append_file('.gitattributes', '*.x22 filter=media -crlf')
     `git config filter.media.clean "#{bin} filter-clean"`
     `git config filter.media.smudge "#{bin} filter-smudge"`
-    yield
+    yield tmp_path
   end
 end
 
