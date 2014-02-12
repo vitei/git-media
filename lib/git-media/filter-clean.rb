@@ -17,6 +17,9 @@ module GitMedia
 		filename = "(unknown)"
 	  end
 
+		
+	  #STDERR.puts "clean : "+filename+" : "+filename
+
 
 	  sha = STDIN.readpartial(41)
       if STDIN.eof && sha.length == 41 && sha.match(/^[0-9a-fA-F]+$/) != nil
@@ -42,7 +45,6 @@ module GitMedia
 		STDOUT.print hx = hashfunc.hexdigest 
 		STDOUT.write("\n")
 
-		#STDERR.puts "clean : "+filename+" : "+hx[0,8]
 		
 		
 		# move the tempfile to our media buffer area
@@ -52,23 +54,24 @@ module GitMedia
 
 		if !File.exists?(media_file)
 
+		
+			@push = GitMedia.get_push_transport
+
+			if @push.needs_push(hx)
+				STDERR.puts('Skipping media upload: '+hx[0,8])
+			else
+				if @push.push(hx)
+					STDERR.puts('Uploaded media ' + hx[0,8] + '.. '+filename)
+				else
+					STDERR.puts('Failed to upload media ' + hx[0,8] + '.. '+filename)
+					exit(1)
+				end
+			end
+			
 			FileUtils.mv(tempfile.path, media_file)
 			File.chmod(0640, media_file)
 
 			STDERR.puts('Saved media ' + hx[0,8] + '.. '+ filename)
-		end
-		
-		@push = GitMedia.get_push_transport
-
-		if @push.needs_push(hx)
-			#STDERR.puts('Skipping media upload: '+hx)
-		else
-			if @push.push(hx)
-				STDERR.puts('Uploaded media ' + hx[0,8] + '.. '+filename)
-			else
-				STDERR.puts('Failed to upload media ' + hx[0,8] + '.. '+filename)
-				exit(1)
-			end
 		end
 	  end
 
