@@ -6,15 +6,15 @@ module GitMedia
       media_buffer = GitMedia.get_media_buffer
       #can_download = false # TODO: read this from config and implement
 
-	  if filename == nil
-		filename = "(unknown)"
-	  end
+      if filename == nil
+        filename = "(unknown)"
+      end
 
       # read checksum size
       sha = STDIN.readpartial(40)
- 
-	  STDOUT.binmode
-	  #STDERR.puts "smudge : "+filename
+
+      STDOUT.binmode
+      #STDERR.puts "smudge : "+filename
 
       if sha.length == 40 && sha.match(/^[0-9a-fA-F]+$/) != nil
         # this is a media file
@@ -27,22 +27,23 @@ module GitMedia
             end
           end
         else
-			STDERR.puts('Downloading media ' + sha[0,8] + '.. ' + filename)
-			@pull = GitMedia.get_pull_transport
+          STDERR.puts('Downloading media ' + sha[0,8] + '.. ' + filename)
+          @pull = GitMedia.get_pull_transport
 
-			if @pull.pull(media_file, sha)
-				File.open(media_file, 'r') do |f|
-					while data = f.read(4096) do
-						print data
-					end
-				end
-			else
-				STDERR.puts('Unable to fetch media ' + sha[0,8] + '.. ' + filename)
-				exit 1
-			end
+          if @pull.pull(media_file, sha)
+            File.open(media_file, 'r') do |f|
+              while data = f.read(4096) do
+                print data
+              end
+            end
+          else
+            STDERR.puts('Unable to fetch media ' + sha[0,8] + '.. ' + filename)
+            exit 1
+          end
         end
+
       else
-      	STDERR.puts('Media pass thru: ' + filename)
+        STDERR.puts('Media pass thru: ' + filename)
         # if it is not a 40 character long hash, just output
         #STDERR.puts('Unknown git-media file format')
         print sha

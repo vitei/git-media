@@ -13,36 +13,28 @@ module GitMedia
         @path = path
       end
 
-      def read?
-        File.exist?(@path)
+      def exist?(file)
+        return File.exist?(file)
       end
 
       def get_file(sha, to_file)
-        from_file = File.join(@path, sha)
-        if File.exists?(from_file)
-          FileUtils.cp(from_file, to_file)
-          return true
-        end
-        return false
-      end
-
-      def write?
-        File.exist?(@path)
+        begin
+			from_file = File.join(@path, sha)
+			FileUtils.cp(from_file, to_file)
+			return true
+		rescue
+			return false
+		end
       end
 
       def put_file(sha, from_file)
-        to_file = File.join(@path, sha)
-        if File.exists?(from_file)
-          FileUtils.cp(from_file, to_file)
-          return true
-        end
-        return false
-      end
-      
-      def get_unpushed(files)
-        files.select do |f|
-          !File.exist?(File.join(@path, f))
-        end
+        begin
+			to_file = File.join(@path, sha)
+			FileUtils.cp(from_file, to_file)
+			return true
+		rescue
+			return false
+		end
       end
       
     end

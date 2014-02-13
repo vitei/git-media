@@ -35,9 +35,6 @@ module GitMedia
 	   	return false
       end
 
-      def read?
-	return true
-      end
 
 
 
@@ -50,10 +47,6 @@ module GitMedia
 		end
       end
 
-      def write?
-		return true
-      end
-
       def put_file(sha, from_file)
         to_file = File.join(@path, sha)
 		begin
@@ -64,15 +57,7 @@ module GitMedia
 		end
       end
       
-      def get_unpushed(files)
-        files.select do |f|
-          !self.exist?(File.join(@path, f))
-        end
-      end
-      
-      def needs_push(sha)
-        return exist?(File.join(@path, sha))
-      end
+
 
 
     end

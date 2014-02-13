@@ -15,11 +15,7 @@ module GitMedia
 
       ## OVERWRITE ##
       
-      def read?
-        false
-      end
-
-      def write?
+      def exist?(file)
         false
       end
 
@@ -32,8 +28,15 @@ module GitMedia
       end
       
       def get_unpushed(files)
-        files
+        files.select do |f|
+          !exist?(File.join(@path, f))
+        end
       end
+      
+      def needs_push(sha)
+        return !exist?(File.join(@path, sha))
+      end
+
       
     end
   end
