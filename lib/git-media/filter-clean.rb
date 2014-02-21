@@ -20,8 +20,12 @@ module GitMedia
 
       #STDERR.puts "clean : "+filename+" : "+filename
 
-
-      sha = STDIN.readpartial(41)
+      begin
+        sha = STDIN.readpartial(41)
+      rescue
+        sha = ""
+      end
+      
       if STDIN.eof && sha.length == 41 && sha.match(/^[0-9a-fA-F]+$/) != nil
         STDOUT.puts(sha)    
         STDERR.puts('Media clean detected hash '+sha[0,8]+'.. in '+filename)

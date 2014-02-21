@@ -28,12 +28,13 @@ module GitMedia
       end
 
       def put_file(sha, from_file)
-        begin
-			to_file = File.join(@path, sha)
-			FileUtils.cp(from_file, to_file)
-			return true
-		rescue
-			return false
+      begin
+			  to_file = File.join(@path, sha)
+			  FileUtils.cp(from_file, to_file)
+			  File.chmod(0660,to_file) 
+			  return true
+		  rescue
+			  return false
 		end
       end
       
