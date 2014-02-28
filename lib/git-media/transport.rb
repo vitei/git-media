@@ -29,12 +29,12 @@ module GitMedia
       
       def get_unpushed(files)
         files.select do |f|
-          !exist?(File.join(@path, f))
+          !exist?(f)
         end
       end
       
       def needs_push(sha)
-        return !exist?(File.join(@path, sha))
+        return !exist?(sha)
       end
 
       

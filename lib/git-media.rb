@@ -3,6 +3,7 @@ require 'fileutils'
 require 'git-media/transport/local'
 require 'git-media/transport/s3'
 require 'git-media/transport/scp'
+require 'git-media/transport/hashstash'
 
 module GitMedia
 
@@ -97,6 +98,11 @@ module GitMedia
         raise "git-media.collection not set for drive transport"
       end
       GitMedia::Transport::Drive.new(email, asp, collection)
+    when "hashstash"
+      require 'git-media/transport/hashstash'
+      host = `git config git-media.host`
+      port = `git config git-media.port`
+      GitMedia::Transport::HashStash.new(host,port)
     else
       raise "Invalid transport #{transport}"
     end
