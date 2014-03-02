@@ -29,13 +29,14 @@ There are four options:
 3. Storing remotely via SCP (should work with any SSH server)
 4. Storing remotely in atmos
 5. Storing remotely in Google Drive
+6. Storing remotely in a Hash Stash
 
 Here are the relevant sections that should go either in `~/.gitconfig` (for global settings)
 or in `clone/.git/config` (for per-repo settings).
 
 ```ini
 [git-media]
-	transport = <scp|local|s3|atmos|drive>
+	transport = <scp|local|s3|atmos|drive|hashstash>
 
 	# settings for scp transport
 	scpuser = <user>
@@ -60,6 +61,11 @@ or in `clone/.git/config` (for per-repo settings).
 	email=<google email>
 	asp=<application specific password>
 	collection=<folder name>
+
+	# settings for hashstash transport
+	host	= <hashstash server>
+	port	= <hashstash port>
+
 ```
 
 
