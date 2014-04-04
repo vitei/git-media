@@ -51,10 +51,9 @@ module GitMedia
           end
 
 
-          file = File.open(to_file, 'w')
-          file.binmode
-          while !s.eof
-            file.write s.read
+          file = File.open(to_file, 'wb')
+          while data = s.read(4096)
+            file.write data
           end
           file.close
 
@@ -77,10 +76,9 @@ module GitMedia
 
           s.puts length.to_s
        
-          file = File.open(from_file, 'r')
-          file.binmode
-          while !file.eof
-            s.write file.read
+          file = File.open(from_file, 'rb')
+          while data = file.read(4096)
+            s.write data
           end 
           file.close
 
