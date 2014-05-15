@@ -18,13 +18,14 @@ module GitMedia
       end
 
 
-      #STDERR.puts "clean : "+filename+" : "+filename
+      #STDERR.puts "clean : "+filename+" : "+sha
 
       begin
         sha = STDIN.readpartial(41)
       rescue
         sha = ""
       end
+      
       
       if STDIN.eof && sha.length == 41 && sha.match(/^[0-9a-fA-F]+$/) != nil
         STDOUT.puts(sha)    
@@ -55,7 +56,7 @@ module GitMedia
         # move the tempfile to our media buffer area
         media_file = File.join(media_buffer, hx)
 
-        # STDERR.puts ('clean: ' + filename + ' ('+hx[0,8]+')')
+        #STDERR.puts ('clean: ' + filename + ' ('+hx[0,8]+')')
 
         if !File.exists?(media_file)
 

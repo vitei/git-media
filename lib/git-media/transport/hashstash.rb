@@ -42,9 +42,9 @@ module GitMedia
           s.puts 'GET'
           s.puts sha
 
-          size = s.gets.chomp
+          size = s.gets
 
-          if !size.is_i?
+          if !size || !size.is_i?
             STDERR.puts "File missing on stash: "+sha[0..8]
             s.close
             return false
