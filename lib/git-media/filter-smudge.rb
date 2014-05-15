@@ -27,18 +27,20 @@ module GitMedia
             end
           end
         else
-          STDERR.puts('Downloading media ' + sha[0,8] + '.. ' + filename)
-          @pull = GitMedia.get_pull_transport
+          if GitMedia.filtersync?
+            STDERR.puts('Downloading media ' + sha[0,8] + '.. ' + filename)
+            @pull = GitMedia.get_pull_transport
 
-          if @pull.pull(media_file, sha)
-            File.open(media_file, 'rb') do |f|
-              while data = f.read(4096) do
-                print data
+            if @pull.pull(media_file, sha)
+              File.open(media_file, 'rb') do |f|
+                while data = f.read(4096) do
+                  print data
+                end
               end
+            else
+              STDERR.puts('Unable to fetch media ' + sha + ' : ' + filename)
+              exit 1
             end
-          else
-            STDERR.puts('Unable to fetch media ' + sha + ' : ' + filename)
-            exit 1
           end
         end
 

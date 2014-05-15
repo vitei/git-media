@@ -60,20 +60,21 @@ module GitMedia
 
         if !File.exists?(media_file)
 
-          @push = GitMedia.get_push_transport
+          if GitMedia.filtersync?
+            @push = GitMedia.get_push_transport
 
-          if !@push.needs_push(hx)
-            STDERR.puts('Skipping media upload: '+hx[0,8])
-          else
-            if @push.put_file(hx,tempfile.path)
-              STDERR.puts('Uploaded media ' + hx[0,8] + '.. '+filename)
+            if !@push.needs_push(hx)
+              STDERR.puts('Skipping media upload: '+hx[0,8])
             else
-              STDERR.puts('Failed to upload media ' + hx[0,8] + '.. '+filename)
-              exit(1)
+              if @push.put_file(hx,tempfile.path)
+                STDERR.puts('Uploaded media ' + hx[0,8] + '.. '+filename)
+              else
+                STDERR.puts('Failed to upload media ' + hx[0,8] + '.. '+filename)
+                exit(1)
+              end
             end
           end
-
-
+      
           FileUtils.mv(tempfile.path, media_file)
           File.chmod(0640, media_file)
 

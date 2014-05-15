@@ -23,8 +23,16 @@ module GitMedia
     self.get_transport
   end
 
+  def self.filtersync?
+    if `git config git-media.filtersync`.chomp === "false"
+      return false
+    end
+    return true
+  end
+
   def self.get_transport
     transport = `git config git-media.transport`.chomp
+
     case transport
     when ""
       raise "git-media.transport not set"
