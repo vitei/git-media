@@ -41,6 +41,8 @@ module GitMedia
               STDERR.puts('Unable to fetch media ' + sha + ' : ' + filename)
               exit 1
             end
+          else
+            print sha+"\n"
           end
         end
 
