@@ -110,7 +110,9 @@ module GitMedia
       require 'git-media/transport/hashstash'
       host = `git config git-media.host`
       port = `git config git-media.port`
-      GitMedia::Transport::HashStash.new(host,port)
+      origin = `git config remote.origin.url`
+
+      GitMedia::Transport::HashStash.new(host,port,origin)
     else
       raise "Invalid transport #{transport}"
     end

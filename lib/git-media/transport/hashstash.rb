@@ -13,15 +13,17 @@ module GitMedia
   module Transport
     class HashStash < Base
 
-      def initialize(host, port)
+      def initialize(host, port, origin)
         @host = host.chomp
         @port = port.chomp.to_i
+	@origin = origin.chomp
       end
 
       def exist?(sha)
         begin
           s = TCPSocket.open(@host, @port)
           s.puts 'HAS'
+          s.puts @origin
           s.puts sha
           r = s.gets.chomp
           s.close
@@ -40,6 +42,7 @@ module GitMedia
           s = TCPSocket.open(@host, @port)
 
           s.puts 'GET'
+          s.puts @origin
           s.puts sha
 
           size = s.gets
@@ -71,10 +74,10 @@ module GitMedia
         begin
           s = TCPSocket.open(@host, @port)
           s.puts 'SET'
-        
-          length = File.size(from_file)
+          s.puts @origin
 
-          s.puts length.to_s
+          #length = File.size(from_file)
+          #s.puts length.to_s
        
           file = File.open(from_file, 'rb')
           while data = file.read(4096)
