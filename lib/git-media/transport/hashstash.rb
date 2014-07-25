@@ -16,7 +16,7 @@ module GitMedia
       def initialize(host, port, origin)
         @host = host.chomp
         @port = port.chomp.to_i
-	@origin = origin.chomp
+	@origin = origin.chomp.downcase.sub(/\.git$/,"")
       end
 
       def exist?(sha)
