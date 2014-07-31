@@ -10,14 +10,18 @@ module GitMedia
         filename = "(unknown)"
       end
 
+      STDIN.binmode
+
       # read checksum size
       sha = STDIN.readpartial(40)
 
       STDOUT.binmode
       #STDERR.puts "smudge : "+filename
 
-      if sha.length == 40 && sha.match(/^[0-9a-fA-F]+$/) != nil
-        # this is a media file
+      if sha.match(/^[0-9a-fA-F]{40}$/)
+      	#STDERR.puts("smudge "+media_buffer+", "+sha+"," +sha.chomp)
+
+	  # this is a media file
         media_file = File.join(media_buffer, sha.chomp)
         if File.exists?(media_file)
           STDERR.puts('Recovering media ' + sha[0,8] + '.. ' + filename)
