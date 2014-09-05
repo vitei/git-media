@@ -44,7 +44,7 @@ Gem::Specification.new do |s|
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.1}
-  s.summary = %q{"This is a summary! Stop yer whining"}
+  s.summary = %q{"Adds large files support to git using clean/smudge filters"}
 
   s.add_dependency 'trollop'
   s.add_dependency 's3'
