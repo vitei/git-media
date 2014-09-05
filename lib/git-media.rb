@@ -1,9 +1,5 @@
 require 'trollop'
 require 'fileutils'
-require 'git-media/transport/local'
-require 'git-media/transport/s3'
-require 'git-media/transport/scp'
-require 'git-media/transport/hashstash'
 
 module GitMedia
 
@@ -50,6 +46,7 @@ module GitMedia
       if path === ""
         raise "git-media.scppath not set for scp transport"
       end
+      require 'git-media/transport/scp'
       GitMedia::Transport::Scp.new(user, host, path, port)
 
     when "local"
@@ -57,6 +54,7 @@ module GitMedia
       if path === ""
         raise "git-media.localpath not set for local transport"
       end
+      require 'git-media/transport/local'
       GitMedia::Transport::Local.new(path)
     when "s3"
       bucket = `git config git-media.s3bucket`.chomp
@@ -71,6 +69,7 @@ module GitMedia
       if secret === ""
         raise "git-media.s3secret not set for s3 transport"
       end
+      require 'git-media/transport/s3'
       GitMedia::Transport::S3.new(bucket, key, secret)
     when "atmos"
       require 'git-media/transport/atmos_client'
