@@ -140,6 +140,9 @@ module GitMedia
         when "sync"
           require 'git-media/sync'
           GitMedia::Sync.run!
+	when "check"
+	  require 'git-media/check'
+	  GitMedia::Check.run!
         when "download"
           require 'git-media/sync'
           GitMedia::Sync.run! :download_only => true
@@ -162,13 +165,14 @@ module GitMedia
           GitMedia::Config.run!(:uninstall)
         else
 	       print <<EOF
-usage: git media sync|download|status|list|clear
+usage: git media sync|download|status|list|clear|check
   
   sync      Sync files with remote server
   download  Download files that are missing; don't upload any files
   status    Show files that are waiting to be uploaded and file size
   list      List local cache and corresponding media file
   clear     Upload and delete the local cache of media files
+  check     Check local media cache and download any corrupt files
   install   Set up the attributes filter settings in git config  
   uninstall Removes the attributes filter settings in git config  
 EOF
