@@ -6,12 +6,7 @@ module GitMedia
   module FilterClean
 
     def self.run!(filename)
-      # determine and initialize our media buffer directory
-      media_buffer = GitMedia.get_media_buffer
-
-
       STDOUT.binmode
-
 
       if filename == nil
         filename = "(unknown)"
@@ -51,12 +46,8 @@ module GitMedia
         STDOUT.print hx = hashfunc.hexdigest 
         STDOUT.write("\n")
 
-
-
         # move the tempfile to our media buffer area
-        media_file = File.join(media_buffer, hx)
-
-        #STDERR.puts ('clean: ' + filename + ' ('+hx[0,8]+')')
+        media_file = GitMedia.media_path(hx)
 
         if !File.exists?(media_file)
 

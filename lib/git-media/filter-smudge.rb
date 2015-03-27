@@ -3,7 +3,6 @@ module GitMedia
   module FilterSmudge
 
     def self.run! (filename)
-      media_buffer = GitMedia.get_media_buffer
       #can_download = false # TODO: read this from config and implement
 
       if filename == nil
@@ -22,7 +21,7 @@ module GitMedia
       	#STDERR.puts("smudge "+media_buffer+", "+sha+"," +sha.chomp)
 
 	  # this is a media file
-        media_file = File.join(media_buffer, sha.chomp)
+        media_file = GitMedia.media_path(sha.chomp)
         if File.exists?(media_file)
           STDERR.puts('Recovering media ' + sha[0,8] + '.. ' + filename)
           File.open(media_file, 'rb') do |f|
