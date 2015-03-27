@@ -12,7 +12,9 @@ module GitMedia
 
   def self.media_path(sha)
     buf = self.get_media_buffer
-    File.join(buf, sha)
+    dirname = File.join(buf, sha[0..1])
+    FileUtils.mkdir_p(dirname) if !File.exist?(dirname)
+    File.join(dirname, sha)
   end
 
   def self.get_push_transport

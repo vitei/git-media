@@ -37,9 +37,10 @@ module GitMedia
     
     def self.upload_local_cache
       # find files in media buffer and upload them
-      all_cache = Dir.chdir(GitMedia.get_media_buffer) { Dir.glob('*') }
+      all_cache = Dir.chdir(GitMedia.get_media_buffer) { Dir.glob('*/*') }
       unpushed_files = @push.get_unpushed(all_cache)
       unpushed_files.each do |sha|
+        sha = sha[3..-1]
         puts 'Uploading media ' + sha[0, 8]
         @push.push(sha)
       end
