@@ -126,7 +126,7 @@ module GitMedia
 
       cmd = ARGV.shift # get the subcommand
 
-      cmd_opts = case cmd
+      case cmd
         when "filter-clean" # parse delete options
           require 'git-media/filter-clean'
           GitMedia::FilterClean.run! ARGV.shift
@@ -175,8 +175,7 @@ usage: git media sync|download|status|list|clear|check
   install   Set up the attributes filter settings in git config  
   uninstall Removes the attributes filter settings in git config  
 EOF
-        end
-
+      end
     end
   end
 end
