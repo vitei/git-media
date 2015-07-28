@@ -1,4 +1,5 @@
 require 'git-media/status'
+require 'digest'
 
 module GitMedia
   module Check
