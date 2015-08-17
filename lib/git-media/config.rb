@@ -9,6 +9,8 @@ module GitMedia
       return uninstall_settings if action == :uninstall
       return install_settings if action == :install
       return print_status if action == :status
+      return disable if action == :disable
+      return enable if action == :enable
       throw "Unknown action #{action}"
     end    
 
@@ -45,6 +47,12 @@ module GitMedia
       git_config(filter_key, :remove_section)
 
       puts "Clean & smudge filters have been removed from the local repository git configuration"
+    end
+
+    def self.disable
+    end
+
+    def self.enable
     end
 
     private

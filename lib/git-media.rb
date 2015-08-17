@@ -164,9 +164,16 @@ module GitMedia
         when 'uninstall'
           require 'git-media/config'
           GitMedia::Config.run!(:uninstall)
+        when 'disable'
+          require 'git-media/config'
+          GitMedia::Config.run!(:disable)
+        when 'enable'
+          require 'git-media/config'
+          GitMedia::Config.run!(:enable)
         else
 	       print <<EOF
-usage: git media sync|download|status|list|clear|check|install|uninstall
+usage: git media sync|download|status|list|clear|check|install|uninstall|
+                 enable|disable
   
   sync      Sync files with remote server
   download  Download files that are missing; don't upload any files
@@ -176,6 +183,8 @@ usage: git media sync|download|status|list|clear|check|install|uninstall
   check     Check local media cache and download any corrupt files
   install   Set up the attributes filter settings in git config  
   uninstall Removes the attributes filter settings in git config  
+  disable   Temporarily disable git-media (useful for rebase, pull, etc.)
+  enable    Re-enable git-media after disabling it with `git-media disable`
 EOF
       end
     end
