@@ -74,7 +74,7 @@ module GitMedia
         end
       end
 
-      set_git_config(disabled_in_commit_key, "")
+      unset_git_config(disabled_in_commit_key)
       set_git_config(filter_clean_key, filter_clean_cmd)
       set_git_config(filter_smudge_key, filter_smudge_cmd)
 
