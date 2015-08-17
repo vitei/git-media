@@ -99,11 +99,11 @@ module GitMedia
     end 
 
     def self.filter_clean_cmd
-      "\"git-media filter-clean\""
+      "\"git-media filter-clean %f\""
     end
 
     def self.filter_smudge_cmd
-      "\"git-media filter-smudge\""
+      "\"git-media filter-smudge %f\""
     end
 
     def self.disabled_in_commit_key
