@@ -24,6 +24,7 @@ Gem::Specification.new do |s|
      "git-media.gemspec",
      "lib/git-media/clear.rb",
      "lib/git-media/check.rb",
+     "lib/git-media/config.rb",
      "lib/git-media/filter-clean.rb",
      "lib/git-media/filter-smudge.rb",
      "lib/git-media/status.rb",
@@ -37,6 +38,7 @@ Gem::Specification.new do |s|
      "lib/git-media/transport/drive.rb",
      "lib/git-media/transport/hashstash.rb",
      "lib/git-media/transport.rb",
+     "lib/git-media/helpers/git_ops.rb",
      "lib/git-media.rb"
   ]
   s.has_rdoc = true
