@@ -17,6 +17,9 @@ module GitMedia
         git_config(key, nil, value)
       end
 
+      def unset_git_config(key)
+        git_config(key, :unset, nil)
+      end
     end
   end
 end
