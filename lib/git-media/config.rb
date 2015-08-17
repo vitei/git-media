@@ -1,4 +1,5 @@
 require 'git-media/helpers/git_ops'
+require 'fileutils'
 
 module GitMedia
   module Config
@@ -50,9 +51,38 @@ module GitMedia
     end
 
     def self.disable
+      disabled_in_commit = get_git_config(disabled_in_commit_key)
+      raise "git-media already disabled (in commit #{disabled_in_commit})" if disabled_in_commit != ""
+
+      current_commit = `git rev-parse HEAD`
+      set_git_config(disabled_in_commit_key, current_commit)
+      set_git_config(filter_clean_key, filter_disabled_cmd)
+      set_git_config(filter_smudge_key, filter_disabled_cmd)
     end
 
     def self.enable
+      disabled_in_commit = get_git_config(disabled_in_commit_key)
+      raise "git-media not currently disabled" if disabled_in_commit == ""
+
+      locally_modified_files = `git status --porcelain`.split(/\n+/).select{|l| !(l =~ /^\?\?/)}
+      if !locally_modified_files.empty?
+        $stdout.puts "There are local modifications may be lost if you re-enable git-media now."
+        $stdout.puts "Are you sure you want to proceed? (Type 'yes' in full to continue)"
+        response = $stdin.gets.strip.downcase
+        if response != "yes"
+          exit 0
+        end
+      end
+
+      set_git_config(disabled_in_commit_key, "")
+      set_git_config(filter_clean_key, filter_clean_cmd)
+      set_git_config(filter_smudge_key, filter_smudge_cmd)
+
+      current_commit = `git rev-parse HEAD`
+      diffs_since_disabled = `git diff-tree --no-commit-id --name-status -r #{disabled_in_commit} #{current_commit}`
+      files_to_touch = diffs_since_disabled.split(/\n+/).select{|l| !(l =~ /^D/)}.map{|l| l.sub(/^./, "").strip}
+      FileUtils.touch files_to_touch
+      `git checkout -- .`
     end
 
     private
@@ -74,6 +104,14 @@ module GitMedia
 
     def self.filter_smudge_cmd
       "\"git-media filter-smudge\""
+    end
+
+    def self.disabled_in_commit_key
+      "git-media.disabledincommit"
+    end
+
+    def self.filter_disabled_cmd
+      "cat"
     end
   end
 end
