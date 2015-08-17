@@ -166,7 +166,7 @@ module GitMedia
           GitMedia::Config.run!(:uninstall)
         else
 	       print <<EOF
-usage: git media sync|download|status|list|clear|check
+usage: git media sync|download|status|list|clear|check|install|uninstall
   
   sync      Sync files with remote server
   download  Download files that are missing; don't upload any files
