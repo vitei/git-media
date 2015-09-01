@@ -79,9 +79,12 @@ module GitMedia
       set_git_config(filter_smudge_key, filter_smudge_cmd)
 
       current_commit = `git rev-parse HEAD`
-      diffs_since_disabled = `git diff-tree --no-commit-id --name-status -r #{disabled_in_commit} #{current_commit}`
-      files_to_touch = diffs_since_disabled.split(/\n+/).select{|l| !(l =~ /^D/)}.map{|l| l.sub(/^./, "").strip}
-      FileUtils.touch files_to_touch
+      common_ancestor = `git merge-base #{disabled_in_commit} #{current_commit}`.strip
+      my_diffs = get_diffs(common_ancestor, disabled_in_commit)
+      their_diffs = get_diffs(common_ancestor, current_commit)
+      diffs_since_disabled = my_diffs | their_diffs
+      files_to_touch = diffs_since_disabled.map{|l| l.sub(/^./, "").strip}
+      FileUtils.touch(files_to_touch)
       `git checkout -- .`
     end
 
@@ -112,6 +115,11 @@ module GitMedia
 
     def self.filter_disabled_cmd
       "cat"
+    end
+
+    def self.get_diffs(a, b)
+      diffs = `git diff-tree --no-commit-id --name-status -r #{a} #{b}`
+      diffs.split(/\n+/).select{|l| !(l =~ /^D/)}.map{|f| f.strip}
     end
   end
 end
